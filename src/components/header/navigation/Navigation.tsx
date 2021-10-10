@@ -8,17 +8,19 @@ type NavProps = {
 };
 
 const Navigation: FC<NavProps> = ({ onClick }) => {
-  const isAuth = true;
+  const isAuth = false;
   return (
     <NavigationList>
-      {mainRoutes.map(route => (
-        <NavigationListItem
-          {...route}
-          isAuth={isAuth}
-          key={route.path}
-          onClick={onClick}
-        />
-      ))}
+      {mainRoutes
+        .filter(({ name }) => name !== 'Cart')
+        .map(route => (
+          <NavigationListItem
+            {...route}
+            isAuth={isAuth}
+            key={route.path}
+            onClick={onClick}
+          />
+        ))}
     </NavigationList>
   );
 };

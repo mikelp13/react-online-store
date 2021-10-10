@@ -20,7 +20,7 @@ const NavigationList = styled.ul`
     position: relative;
     padding-top: 20px;
     padding-bottom: 20px;
-    color: #9e9e9e;
+    color: var(--grey-text);
     line-height: 1.3;
     transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -31,7 +31,7 @@ const NavigationList = styled.ul`
       bottom: -1px;
       width: 100%;
       height: 4px;
-      background-color: #2196f3;
+      background-color: var(--primary-color);
       border-radius: 1px;
       opacity: 0;
       transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);

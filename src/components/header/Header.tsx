@@ -2,9 +2,8 @@ import React, { FC } from 'react';
 import Burger from './burger/Burger';
 import { useWindowWidth } from '@react-hook/window-size';
 import HeaderStyled from './HeaderStyled';
-import { Avatar, Badge, IconButton } from '@mui/material';
-import { blue } from '@mui/material/colors';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Avatar, IconButton } from '@mui/material';
+import CartLink from '../cart/cartLink/CartLink';
 
 const Header: FC = () => {
   const onlyWidth = useWindowWidth();
@@ -14,11 +13,7 @@ const Header: FC = () => {
         {onlyWidth > 767 && <p className="logo">MKstore</p>}
         <Burger />
         {onlyWidth < 768 && <p className="logo">MKstore</p>}
-        <IconButton size="medium" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <ShoppingCartIcon sx={{ color: blue[300] }} />
-          </Badge>
-        </IconButton>
+        <CartLink />
         <IconButton size="medium" edge="end" color="inherit">
           <Avatar alt="User" src="/static/images/avatar/1.jpg" />
         </IconButton>

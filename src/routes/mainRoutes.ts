@@ -47,8 +47,8 @@ const mainRoutes: IRoute[] = [
     restricted: false,
   },
   {
-    path: '/profile', // dashboard
-    name: 'Profile',
+    path: '/dashboard',
+    name: 'Dashboard',
     exact: true,
     component: lazy(
       () =>
@@ -66,7 +66,7 @@ const mainRoutes: IRoute[] = [
     component: lazy(
       () => import('../pages/cart/CartPage' /* webpackChunkName: "CartPage"*/)
     ),
-    isPrivate: true,
+    isPrivate: false,
     restricted: false,
   },
 ];
