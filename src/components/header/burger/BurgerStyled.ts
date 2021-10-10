@@ -52,6 +52,7 @@ export const NavWrap = styled.nav`
     /* padding-top: 3.5rem; */
     transition: transform 250ms ease-in-out;
     padding: 20px;
+    z-index: 100;
   }
   @media (min-width: 768px) {
     /* width: 100%; */

@@ -14,7 +14,7 @@ const mainRoutes: IRoute[] = [
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'Sign In',
     exact: true,
     component: lazy(
       () =>

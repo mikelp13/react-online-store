@@ -1,24 +1,63 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Burger from './burger/Burger';
 import { useWindowWidth } from '@react-hook/window-size';
 import HeaderStyled from './HeaderStyled';
-import { Avatar, IconButton } from '@mui/material';
+import { Avatar, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import CartLink from '../cart/cartLink/CartLink';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const Header: FC = () => {
   const onlyWidth = useWindowWidth();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <HeaderStyled>
-      <div className="container header-container">
-        {onlyWidth > 767 && <p className="logo">MKstore</p>}
-        <Burger />
-        {onlyWidth < 768 && <p className="logo">MKstore</p>}
-        <CartLink />
-        <IconButton size="medium" edge="end" color="inherit">
-          <Avatar alt="User" src="/static/images/avatar/1.jpg" />
-        </IconButton>
-      </div>
-    </HeaderStyled>
+    <>
+      <HeaderStyled>
+        <div className="container header-container">
+          {onlyWidth > 767 && <p className="logo">MKstore</p>}
+          <Burger />
+          {onlyWidth < 768 && <p className="logo">MKstore</p>}
+          <CartLink />
+          <IconButton
+            size="medium"
+            edge="end"
+            color="inherit"
+            aria-controls="account-menu"
+            onClick={handleMenuOpen}
+          >
+            <Avatar alt="User" src="/static/images/avatar/1.jpg" />
+          </IconButton>
+        </div>
+      </HeaderStyled>
+      <Menu
+        style={{ marginTop: '8px' }}
+        id="account-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleMenuClose}>
+          <AccountBoxIcon />
+          <Typography sx={{ marginLeft: '10px', fontSize: 14 }}>
+            My Account
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <LogoutIcon />
+          <Typography sx={{ marginLeft: '10px', fontSize: 14 }}>
+            Logout
+          </Typography>
+        </MenuItem>
+      </Menu>
+    </>
   );
 };
 
