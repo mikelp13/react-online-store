@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React, { FC, ChangeEvent, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,18 +14,39 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../copyright/Copyright';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import * as yup from 'yup';
+
+interface IFormInputs {
+  name: string;
+  email: string;
+  password: string;
+}
+
+const schema = yup.object().shape({
+  name: yup.string().min(2).max(30).required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).max(20).required(),
+});
 const theme = createTheme();
 
-const RegisterForm = () => {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+const RegisterForm: FC = () => {
+  const {
+    register,
+    handleSubmit,
+    // watch,
+    formState: { errors },
+  } = useForm<IFormInputs>({ resolver: yupResolver(schema) });
+
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+  const formSubmitHandler: SubmitHandler<IFormInputs> = data => {
+    console.log(`data`, data);
   };
 
   return (
@@ -49,46 +70,54 @@ const RegisterForm = () => {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(formSubmitHandler)}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="name"
-                  name="name"
-                  required
                   fullWidth
                   id="name"
                   label="Name"
                   autoFocus
+                  {...register('name')}
+                  error={!!errors.name}
+                  helperText={errors.name ? errors.name.message : ''}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="email"
                   label="Email Address"
-                  name="email"
                   autoComplete="email"
+                  {...register('email')}
+                  error={!!errors.email}
+                  helperText={errors.email ? errors.email.message : ''}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  {...register('password')}
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password.message : ''}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
+                    <Checkbox
+                      // value="allowExtraEmails"
+                      color="primary"
+                      checked={checked}
+                      onChange={handleChange}
+                    />
                   }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
@@ -99,6 +128,7 @@ const RegisterForm = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!checked}
             >
               Sign Up
             </Button>

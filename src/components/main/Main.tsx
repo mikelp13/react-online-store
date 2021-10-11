@@ -4,10 +4,11 @@ import mainRoutes from '../../routes/mainRoutes';
 
 import PrivateRoute from '../routes/publicRoutes';
 import PublicRoute from '../routes/privateRoutes';
+import Spinner from '../spinner/Spinner';
 
 const Main = () => (
   <main>
-    <Suspense fallback={<div>LOADING...</div>}>
+    <Suspense fallback={<Spinner />}>
       <Switch>
         {mainRoutes.map(route => {
           return route.isPrivate ? (
