@@ -38,7 +38,7 @@ const RegisterForm: FC = () => {
     handleSubmit,
     // watch,
     formState: { errors },
-  } = useForm<IFormInputs>({ resolver: yupResolver(schema) });
+  } = useForm<IFormInputs>({ resolver: yupResolver(schema), mode: 'onChange' });
 
   const [checked, setChecked] = useState(false);
 
